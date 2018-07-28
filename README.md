@@ -1,6 +1,6 @@
 # berkeley-python-course
 
-Fundamentals and advanced concepts in programming using Pythong. Taught by UC Berkeley.
+Fundamentals and advanced concepts in programming using Python. Taught by UC Berkeley.
 
 Taking this course for fun and to learn about Python.
 
