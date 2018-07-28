@@ -1,6 +1,7 @@
 """CS 61A Presents The Game of Hog."""
 
 from dice import six_sided, four_sided, make_test_dice
+from helpers import to_list, get_score
 from ucb import main, trace, interact
 
 GOAL_SCORE = 100  # The goal of Hog is to score 100 points.
@@ -10,7 +11,7 @@ GOAL_SCORE = 100  # The goal of Hog is to score 100 points.
 ######################
 
 
-def roll_dice(num_rolls, dice=six_sided):
+def roll_dice(num_rolls, dice=six_sided, sum=0):
     """Simulate rolling the DICE exactly NUM_ROLLS > 0 times. Return the sum of
     the outcomes unless any of the outcomes is 1. In that case, return 1.
 
@@ -19,10 +20,19 @@ def roll_dice(num_rolls, dice=six_sided):
     """
     # These assert statements ensure that num_rolls is a positive integer.
     assert type(num_rolls) == int, 'num_rolls must be an integer.'
-    assert num_rolls > 0, 'Must roll at least once.'
-    # BEGIN PROBLEM 1
-    "*** YOUR CODE HERE ***"
-    # END PROBLEM 1
+
+    if not num_rolls:
+        return sum;
+
+    currNum = dice()
+
+    if (currNum == 1):
+        return 1
+
+    sum += currNum
+    num_rolls -= 1
+
+    return roll_dice(num_rolls, dice, sum)
 
 
 def free_bacon(score):
@@ -31,10 +41,18 @@ def free_bacon(score):
     score:  The opponent's current score.
     """
     assert score < 100, 'The game should be over.'
-    # BEGIN PROBLEM 2
-    "*** YOUR CODE HERE ***"
-    # END PROBLEM 2
 
+    score_list = to_list(score)
+
+    if (len(score_list) == 1):
+        return 1
+
+    sum = 1
+
+    for s in score_list:
+        sum *= s
+
+    return get_score(sum)
 
 def take_turn(num_rolls, opponent_score, dice=six_sided):
     """Simulate a turn rolling NUM_ROLLS dice, which may be 0 (Free Bacon).
@@ -49,17 +67,18 @@ def take_turn(num_rolls, opponent_score, dice=six_sided):
     assert num_rolls >= 0, 'Cannot roll a negative number of dice in take_turn.'
     assert num_rolls <= 10, 'Cannot roll more than 10 dice.'
     assert opponent_score < 100, 'The game should be over.'
-    # BEGIN PROBLEM 3
-    "*** YOUR CODE HERE ***"
-    # END PROBLEM 3
+
+    return free_bacon(opponent_score) if (num_rolls == 0) else roll_dice(num_rolls, dice)
 
 
-def is_swap(score0, score1):
+def is_swap(my_score, opponent_score):
     """Return whether the current player's score has a ones digit
     equal to the opponent's score's tens digit."""
-    # BEGIN PROBLEM 4
-    "*** YOUR CODE HERE ***"
-    # END PROBLEM 4
+
+    my_score_ones_digit = my_score % 10
+    opponent_score_tens_digit = opponent_score // 10 % 10
+
+    return my_score_ones_digit == opponent_score_tens_digit
 
 
 def other(player):
@@ -99,6 +118,8 @@ def play(strategy0, strategy1, score0=0, score1=0, dice=six_sided,
     # BEGIN PROBLEM 5
     "*** YOUR CODE HERE ***"
     # END PROBLEM 5
+     
+
     # BEGIN PROBLEM 6
     "*** YOUR CODE HERE ***"
     # END PROBLEM 6
