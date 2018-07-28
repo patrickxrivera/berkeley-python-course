@@ -36,8 +36,9 @@ def composite_identity(f, g):
     False
     """
     "*** YOUR CODE HERE ***"
+    return lambda x: compose1(f, g)(x) == compose1(g, f)(x)
 
-def count_cond(condition):
+def count_cond(fn):
     """Returns a function with one parameter N that counts all the numbers from
     1 to N that satisfy the two-argument predicate function Condition, where
     the first argument for Condition is N and the second argument is the
@@ -65,6 +66,14 @@ def count_cond(condition):
     8
     """
     "*** YOUR CODE HERE ***"
+    def applyNum(n):
+        i, count = 1, 0
+        while (i <= n):
+          if (fn(n, i)):
+            count += 1
+          i += 1
+        return count
+    return applyNum
 
 def cycle(f1, f2, f3):
     """Returns a function that is itself a higher-order function.
@@ -93,3 +102,24 @@ def cycle(f1, f2, f3):
     19
     """
     "*** YOUR CODE HERE ***"
+    def applyN(n):
+        def applyCycle(x):
+            if n == 0:
+                return x
+
+            count = 2
+            val = f1(x)
+
+            while count <= n:
+                num = count % 3
+                if num == 1:
+                    val = f1(val)
+                elif num == 2:
+                    val = f2(val)
+                elif num == 0:
+                    val = f3(val)
+                count += 1
+
+            return val
+        return applyCycle
+    return applyN
