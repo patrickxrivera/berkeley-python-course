@@ -4,6 +4,10 @@ from city import *
 
 # Q2
 from math import sqrt
+
+def calc(fn, city1, city2):
+    return (fn(city1) - fn(city2))**2
+
 def distance(city1, city2):
     """
     >>> city1 = make_city('city1', 0, 1)
@@ -16,6 +20,9 @@ def distance(city1, city2):
     5.0
     """
     "*** YOUR CODE HERE ***"
+    lat_dist = calc(get_lat, city1, city2)
+    lon_dist = calc(get_lon, city1, city2)
+    return sqrt(lat_dist + lon_dist)
 
 # Q3
 def closer_city(lat, lon, city1, city2):
@@ -33,13 +40,20 @@ def closer_city(lat, lon, city1, city2):
     'Bucharest'
     """
     "*** YOUR CODE HERE ***"
+    new_city = make_city('New City', lat, lon)
+    dist_1 = distance(new_city, city1)
+    dist_2 = distance(new_city, city2)
+    if dist_1 < dist_2:
+        return get_name(city1)
+    else:
+        return get_name(city2)
 
 # Q4
 # This is another implementation of the City ADT. Make sure
 # your code works for both the previous and the following versions
 # of the constructor and selectors!
 #
-# make_city = lambda name, lat, lon: { 'name': name, 'lat': lat, 'lon': lon }
-# get_name = lambda city: city['name']
-# get_lat = lambda city: city['lat']
-# get_lon = lambda city: city['lon']
+make_city = lambda name, lat, lon: { 'name': name, 'lat': lat, 'lon': lon }
+get_name = lambda city: city['name']
+get_lat = lambda city: city['lat']
+get_lon = lambda city: city['lon']

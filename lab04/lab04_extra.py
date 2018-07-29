@@ -11,6 +11,8 @@ def map(fn, lst):
     [25, 1, 4, 0]
     """
     "*** YOUR CODE HERE ***"
+    for idx, val in enumerate(lst):
+        lst[idx] = fn(val)
 
 # Q6
 def pascal(row, column):

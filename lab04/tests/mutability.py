@@ -8,11 +8,9 @@ test = {
           'code': r"""
           >>> lst = [5, 6, 7, 8]
           >>> lst.append(6)
-          5c5b429063049b010ee9d6da4aff0f09
-          # locked
+          Nothing
           >>> lst
-          8479bcf7fd6e046c0ee92e37bd0bd1c5
-          # locked
+          [5, 6, 7, 8, 6]
           >>> lst.insert(0, 9)
           >>> lst
           34540cad83a3fb7bcbb40cf99a050929
