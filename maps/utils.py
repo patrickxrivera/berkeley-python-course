@@ -2,6 +2,7 @@
 
 from math import sqrt
 from random import sample
+from functools import reduce
 
 # Rename the built-in zip (http://docs.python.org/3/library/functions.html#zip)
 _zip = zip
@@ -15,9 +16,12 @@ def map_and_filter(s, map_fn, filter_fn):
     >>> map_and_filter([1, 2, 3, 4, 5], square, is_odd)
     [1, 9, 25]
     """
-    # BEGIN Question 0
-    return ['REPLACE THIS WITH YOUR LIST COMPREHENSION']
-    # END Question 0
+    return list(filter(filter_fn, map(map_fn, s)))
+
+def get_min(acc, curr):
+  if acc[1] < curr[1]:
+    return acc
+  return curr
 
 def key_of_min_value(d):
     """Returns the key in a dict d that corresponds to the minimum value of d.
@@ -28,9 +32,8 @@ def key_of_min_value(d):
     >>> key_of_min_value(letters)
     'c'
     """
-    # BEGIN Question 0
-    return min('REPLACE THIS WITH YOUR SOLUTION')
-    # END Question 0
+    return reduce(get_min, d.items())[0]
+
 
 def zip(*sequences):
     """Returns a list of lists, where the i-th list contains the i-th
@@ -60,9 +63,11 @@ def enumerate(s, start=0):
     >>> enumerate('five', 5)
     [[5, 'f'], [6, 'i'], [7, 'v'], [8, 'e']]
     """
-    # BEGIN Question 0
-    "*** YOUR CODE HERE ***"
-    # END Question 0
+    idx, result = 0, []
+    for item in s:
+      result.append([idx + start, item])
+      idx += 1
+    return result
 
 def distance(pos1, pos2):
     """Returns the Euclidean distance between pos1 and pos2, which are pairs.
@@ -72,6 +77,8 @@ def distance(pos1, pos2):
     """
     return sqrt((pos1[0] - pos2[0]) ** 2 + (pos1[1] - pos2[1]) ** 2)
 
+sum = lambda acc, curr: acc + curr
+
 def mean(s):
     """Returns the arithmetic mean of a sequence of numbers s.
 
@@ -80,6 +87,4 @@ def mean(s):
     >>> mean([0, -3, 2, -1])
     -0.5
     """
-    # BEGIN Question 1
-    "*** YOUR CODE HERE ***"
-    # END Question 1
+    return reduce(sum, s) / len(s)
