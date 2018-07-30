@@ -16,7 +16,7 @@ def map_and_filter(s, map_fn, filter_fn):
     >>> map_and_filter([1, 2, 3, 4, 5], square, is_odd)
     [1, 9, 25]
     """
-    return list(filter(filter_fn, map(map_fn, s)))
+    return [map_fn(item) for item in s if filter_fn(item)]
 
 def get_min(acc, curr):
   if acc[1] < curr[1]:
@@ -87,4 +87,7 @@ def mean(s):
     >>> mean([0, -3, 2, -1])
     -0.5
     """
+    assert len(s) != 0, 's cannot be empty'
     return reduce(sum, s) / len(s)
+
+mean([2, 4, 6, 8] * 1000000)
