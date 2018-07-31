@@ -23,6 +23,9 @@ class Card(object):
         500
         """
         "*** YOUR CODE HERE ***"
+        self.name = name
+        self.attack = attack
+        self.defense = defense
 
     def power(self, other_card):
         """
@@ -42,6 +45,7 @@ class Card(object):
         50.0
         """
         "*** YOUR CODE HERE ***"
+        return self.attack - (other_card.defense / 2)
 
 
     def effect(self, other_card, player, opponent):
@@ -82,6 +86,7 @@ class Player(object):
         self.deck = deck
         self.name = name
         "*** YOUR CODE HERE ***"
+        
 
     def draw(self):
         """Draw a card from the player's deck and add it to their hand.

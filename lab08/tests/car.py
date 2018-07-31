@@ -9,44 +9,35 @@ test = {
           >>> from car import *
           >>> hilfingers_car = Car('Tesla', 'Model S')
           >>> hilfingers_car.color
-          80d498e7f8cbec95df437d78b524521a
-          # locked
+          'No color yet. You need to paint me.'
           >>> hilfingers_car.paint('black')
-          1b93d7f83f69e1b06c11954d997cf04f
-          # locked
+          'Tesla Model S is now black'
           >>> hilfingers_car.color
-          9ccdc90cb9022261857bac913f59ab65
-          # locked
+          'black'
           """,
           'hidden': False,
-          'locked': True
+          'locked': False
         },
         {
           'code': r"""
           >>> from car import *
           >>> hilfingers_car = Car('Tesla', 'Model S')
           >>> hilfingers_car.model
-          066daa99c4c14fba33ca7fea6de5139e
-          # locked
+          'Model S'
           >>> hilfingers_car.gas = 10
           >>> hilfingers_car.drive()
-          6782dfbb8a7616b3f504afa7bdbc4efe
-          # locked
+          'Tesla Model S goes vroom!'
           >>> hilfingers_car.drive()
-          8e18dc54497447151e91747068c581ce
-          # locked
+          'Tesla Model S cannot drive!'
           >>> hilfingers_car.fill_gas()
-          86623ae32a344b2c86ec58b8962d85fd
-          # locked
+          'Tesla Model S gas level: 20'
           >>> hilfingers_car.gas
-          2b5c8adf725274c931c4272b26ac97ea
-          # locked
+          20
           >>> Car.gas
-          e0c9124d3360b0721b517ec33d41b017
-          # locked
+          30
           """,
           'hidden': False,
-          'locked': True
+          'locked': False
         },
         {
           'code': r"""
