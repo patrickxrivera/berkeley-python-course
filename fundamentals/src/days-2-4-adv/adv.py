@@ -52,12 +52,26 @@ player = Player(room['outside'])
 #
 # If the user enters "q", quit the game.
 
-while True:
+def print_current_room_info(player):
     print('Room Name: {}'.format(player.curr_room.name))
     print('Room Description: {}'.format(player.curr_room.description))
-    user_input = input('Go to a room: ')
+
+def handle_direction_input(user_input, player):
     user_input += '_to'
     if hasattr(player.curr_room, user_input):
         player.curr_room = getattr(player.curr_room, user_input)
+    else:
+        print("\nNo room in this direction. Try again.\n")
+
+is_playing = True
+directions = ['n', 's', 'e', 'w']
+
+while is_playing:
+    print_current_room_info(player)
+
+    user_input = input('Go to a room: ')
+
+    if user_input in directions:
+        handle_direction_input(user_input, player)
     elif user_input == 'q':
-        print('quit')
+        is_playing = False
