@@ -5,6 +5,7 @@ class Player:
     def __init__(self, Room):
         self.curr_room = Room
         self.items = []
+        self.score = 0
 
     def add_item(self, Item):
         self.items.append(Item)

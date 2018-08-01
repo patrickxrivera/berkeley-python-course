@@ -8,6 +8,7 @@ class Room:
         self.name = name
         self.description = description
         self.items = []
+        self.is_light = False
 
     def add_item(self, Item):
         self.items.append(Item)

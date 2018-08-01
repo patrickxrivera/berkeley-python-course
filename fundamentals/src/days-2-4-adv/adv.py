@@ -1,6 +1,6 @@
 from room import Room
 from player import Player
-from item import Item
+from item import Item, Treasure
 
 # Declare all the rooms
 
@@ -46,6 +46,16 @@ room['outside'].add_item(kettlebell)
 room['foyer'].add_item(book)
 room['overlook'].add_item(kettlebell)
 
+# Create treasure
+six_pack_abs = Treasure('six-pack-abs', 'ripped abs', 1000)
+love = Treasure('love', 'a loving relationship, friends, and family', 5000)
+happiness = Treasure('happiness', 'waking up every day with joy and going to bed with gratitude', 10000)
+
+# Add treasure to rooms
+room['outside'].add_item(six_pack_abs)
+room['foyer'].add_item(love)
+room['overlook'].add_item(happiness)
+
 #
 # Main
 #
@@ -63,6 +73,13 @@ player = Player(room['outside'])
 # Print an error message if the movement isn't allowed.
 #
 # If the user enters "q", quit the game.
+
+is_playing = True
+directions = ['n', 's', 'e', 'w']
+inventory_commands = ['i', 'inventory']
+get_commands = ['get', 'take']
+drop_commands = ['drop']
+invalid_command = "\nSorry, I didn't understand that. Please try again."
 
 get_item = lambda item: item.name
 
@@ -94,52 +111,49 @@ def find_item(name, room):
             return item
     return None
 
-is_playing = True
-directions = ['n', 's', 'e', 'w']
-inventory_commands = ['i', 'inventory']
-get_commands = ['get', 'take']
-drop_commands = ['drop']
-invalid_command = "\nSorry, I didn't understand that. Please try again."
+def handle_single_word_command(first_word):
+    if first_word in inventory_commands:
+        render_items(player.items)
+    elif first_word == 'score':
+        print("\nCurrent player's score: {}".format(player.score))
+    elif user_input in directions:
+        handle_direction_input(user_input, player)
+    elif user_input == 'q':
+        is_playing = False
+    else:
+        print(invalid_command)
+
+def handle_two_word_command(first_word, name):
+    if first_word in get_commands:
+        item = find_item(name, player.curr_room)
+        if item == None:
+            print('\nThis room does not have that item. Try again.')
+        else:
+            player.score += item.on_take()
+            player.curr_room.remove_item(item)
+            player.add_item(item)
+    elif first_word in drop_commands:
+        item = find_item(name, player)
+        if item == None:
+            print('\nThis player does not have that item. Try again.')
+        else:
+            player.remove_item(item)
+            player.curr_room.add_item(item)
+    else:
+        print(invalid_command)
 
 while is_playing:
     print_current_room_info(player)
 
     user_input = input('Go to a room: ')
-    num_words = len(user_input.split())
-    first_word = user_input.split()[0]
+    input_array = user_input.split()
+    num_words = len(input_array)
+    first_word = input_array[0]
 
     if num_words == 1:
-        if first_word in inventory_commands:
-            render_items(player.items)
-        else:
-            print(invalid_command)
+        handle_single_word_command(first_word)
     elif num_words == 2:
-        if first_word in get_commands:
-            name = user_input.split()[1]
-            item = find_item(name, player.curr_room)
-            if item == None:
-                print('\nThis room does not have that item. Try again.')
-            else:
-                player.curr_room.remove_item(item)
-                player.add_item(item)
-        elif first_word in drop_commands:
-            name = user_input.split()[1]
-            item = find_item(name, player)
-
-            if item == None:
-                print('\nThis player does not have that item. Try again.')
-            else:
-                player.remove_item(item)
-                player.curr_room.add_item(item)
-        else:
-            print(invalid_command)
-
-
+        name = input_array[1]
+        handle_two_word_command(first_word, name)
     else:
         print('Input must be one or two words. Please try again.')
-
-
-    if user_input in directions:
-        handle_direction_input(user_input, player)
-    elif user_input == 'q':
-        is_playing = False
